@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Paint — ASCII Studio</title>
+  <meta name="description" content="ASCII Paint editor — draw ASCII art on a grid canvas with pencil, fill, line, rectangle, text, and selection tools.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://deviverr.github.io/ASCII-Wallpaper/paint.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="paint-page">
+
+  <!-- Top bar -->
+  <header class="topbar" role="banner">
+    <a href="index.html" class="topbar-logo" title="Home">ASCII Studio</a>
+    <div class="topbar-sep"></div>
+
+    <!-- File ops -->
+    <div class="topbar-group">
+      <button class="btn ghost icon-btn" id="btn-new" title="New canvas (Ctrl+N)">⬜</button>
+      <button class="btn ghost icon-btn" id="btn-import" title="Import TXT (Ctrl+O)">↑</button>
+      <button class="btn ghost icon-btn" id="btn-export-png" title="Export PNG (Ctrl+S)">↓PNG</button>
+      <button class="btn ghost icon-btn" id="btn-export-txt" title="Export TXT">↓TXT</button>
+    </div>
+    <div class="topbar-sep"></div>
+
+    <!-- Edit ops -->
+    <div class="topbar-group">
+      <button class="btn ghost icon-btn" id="btn-undo" title="Undo (Ctrl+Z)" disabled>↺</button>
+      <button class="btn ghost icon-btn" id="btn-redo" title="Redo (Ctrl+Y)" disabled>↻</button>
+    </div>
+    <div class="topbar-sep"></div>
+
+    <!-- View -->
+    <div class="topbar-group">
+      <button class="btn ghost icon-btn" id="btn-zoom-out" title="Zoom out (-)">−</button>
+      <span class="zoom-display" id="zoom-display">100%</span>
+      <button class="btn ghost icon-btn" id="btn-zoom-in" title="Zoom in (+)">+</button>
+      <button class="btn ghost" id="btn-zoom-reset" title="Reset zoom (0)" style="font-size:10px">⊡</button>
+    </div>
+    <div class="topbar-sep"></div>
+
+    <div class="topbar-group">
+      <button class="btn ghost" id="btn-toggle-grid" title="Toggle grid (G)" style="font-size:10px">Grid</button>
+      <button class="btn ghost" id="btn-resize" title="Resize canvas" style="font-size:10px">Resize</button>
+    </div>
+
+    <!-- Right spacer + panel toggle on mobile -->
+    <div style="flex:1"></div>
+    <button class="btn ghost icon-btn" id="btn-panel-toggle" title="Toggle panel" style="font-size:12px">⊞</button>
+  </header>
+
+  <div class="editor-layout">
+
+    <!-- Left toolbar -->
+    <aside class="toolbar" role="toolbar" aria-label="Drawing tools">
+      <button class="tool-btn active" data-tool="pencil" title="Pencil (P)" id="tool-pencil">✎</button>
+      <button class="tool-btn" data-tool="eraser" title="Eraser (E)" id="tool-eraser">◻</button>
+      <button class="tool-btn" data-tool="fill" title="Flood fill (F)" id="tool-fill">◈</button>
+      <div class="divider"></div>
+      <button class="tool-btn" data-tool="text" title="Text (T)" id="tool-text">T</button>
+      <div class="divider"></div>
+      <button class="tool-btn" data-tool="line" title="Line (L)" id="tool-line">╲</button>
+      <button class="tool-btn" data-tool="rect" title="Rectangle (R)" id="tool-rect">▭</button>
+      <div class="divider"></div>
+      <button class="tool-btn" data-tool="select" title="Select (S)" id="tool-select">⬚</button>
+      <div class="divider"></div>
+      <button class="tool-btn" data-tool="eyedropper" title="Eyedropper (I)" id="tool-eyedropper">◉</button>
+    </aside>
+
+    <!-- Canvas -->
+    <div class="canvas-wrap" id="canvas-wrap">
+      <div class="canvas-inner">
+        <canvas id="paint-canvas" tabindex="0" aria-label="ASCII art canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- Side panel -->
+    <aside class="side-panel" id="side-panel" role="complementary" aria-label="Editor panel">
+
+      <!-- Current character -->
+      <div class="panel-section">
+        <div class="panel-title">Current Char</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div id="current-char-display"
+            style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+                   font-family:var(--mono);font-size:20px;color:var(--white);
+                   border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);">
+            #
+          </div>
+          <input type="text" id="char-input" maxlength="1" placeholder="type char"
+            style="width:80px" title="Type or paste a single character">
+        </div>
+      </div>
+
+      <!-- Character palette -->
+      <div class="panel-section">
+        <div class="panel-title">Characters</div>
+        <div class="char-tabs" id="char-tabs"></div>
+        <div class="char-grid" id="char-grid"></div>
+      </div>
+
+      <!-- Colors -->
+      <div class="panel-section">
+        <div class="panel-title">Shade</div>
+        <div class="color-swatches" id="color-swatches"></div>
+      </div>
+
+      <!-- Canvas size -->
+      <div class="panel-section">
+        <div class="panel-title">Canvas Size</div>
+        <div class="panel-input-pair">
+          <div>
+            <label style="font-size:9px;color:var(--text3);display:block;margin-bottom:3px">Cols</label>
+            <input type="number" id="canvas-cols" value="80" min="5" max="300">
+          </div>
+          <div>
+            <label style="font-size:9px;color:var(--text3);display:block;margin-bottom:3px">Rows</label>
+            <input type="number" id="canvas-rows" value="30" min="3" max="150">
+          </div>
+        </div>
+        <button class="btn w-full mt-8" id="btn-apply-size" style="font-size:10px">Apply Size</button>
+      </div>
+
+      <!-- Selection ops (shown only when active) -->
+      <div class="panel-section" id="selection-ops" style="display:none">
+        <div class="panel-title">Selection</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button class="btn ghost" id="btn-copy" title="Copy (Ctrl+C)" style="font-size:10px">Copy</button>
+          <button class="btn ghost" id="btn-cut" title="Cut (Ctrl+X)" style="font-size:10px">Cut</button>
+          <button class="btn ghost" id="btn-paste" title="Paste (Ctrl+V)" style="font-size:10px">Paste</button>
+          <button class="btn ghost" id="btn-sel-delete" title="Delete" style="font-size:10px">Delete</button>
+          <button class="btn ghost" id="btn-sel-clear" title="Deselect (Esc)" style="font-size:10px">Deselect</button>
+        </div>
+      </div>
+
+      <!-- Help -->
+      <div class="panel-section" style="margin-top:auto">
+        <div class="panel-title">Shortcuts</div>
+        <div style="font-size:9px;color:var(--text3);line-height:1.9;">
+          P / E / F / T<br>
+          L / R / S / I<br>
+          Ctrl+Z / Ctrl+Y<br>
+          Ctrl+A / C / V / X<br>
+          +/- zoom &nbsp; G grid<br>
+          Right-click = erase
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- Status bar -->
+  <footer class="statusbar" role="status" aria-live="polite">
+    <span id="status-pos">col:0 row:0</span>
+    <span class="sep">│</span>
+    <span id="status-size">80×30</span>
+    <span class="sep">│</span>
+    <span id="status-tool">pencil</span>
+    <span class="sep">│</span>
+    <span id="status-char">char: #</span>
+    <span class="sep">│</span>
+    <span id="status-hist">undo: 0/0</span>
+  </footer>
+
+  <!-- Resize modal -->
+  <div class="modal-backdrop hidden" id="modal-resize">
+    <div class="modal">
+      <div class="modal-title">Resize Canvas</div>
+      <p style="font-size:11px;color:var(--text2);margin-bottom:16px">
+        Existing content will be preserved where it fits. Content outside the new bounds will be clipped.
+      </p>
+      <div class="control-row">
+        <label>Cols</label>
+        <input type="number" id="modal-cols" value="80" min="5" max="300">
+      </div>
+      <div class="control-row">
+        <label>Rows</label>
+        <input type="number" id="modal-rows" value="30" min="3" max="150">
+      </div>
+      <div class="modal-actions">
+        <button class="btn ghost" id="modal-resize-cancel">Cancel</button>
+        <button class="btn primary" id="modal-resize-ok">Resize</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file input for import -->
+  <input type="file" id="file-input" accept=".txt" style="display:none">
+
+  <script src="js/paint.js"></script>
+</body>
+</html>

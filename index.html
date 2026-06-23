@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Studio — ASCII Paint & Wallpaper Maker</title>
+  <meta name="description" content="ASCII Studio is a free, browser-based tool for creating ASCII art and generating ASCII wallpapers. Features a full-featured paint editor and wallpaper generator with custom resolutions.">
+  <meta name="keywords" content="ASCII art, ASCII wallpaper, ASCII editor, ASCII paint, text art, monospace art, ASCII generator">
+  <meta name="author" content="deviverwork">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://deviverr.github.io/ASCII-Wallpaper/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deviverr.github.io/ASCII-Wallpaper/">
+  <meta property="og:title" content="ASCII Studio — ASCII Paint & Wallpaper Maker">
+  <meta property="og:description" content="Create ASCII art and wallpapers in your browser. Free, minimal, and powerful.">
+  <meta property="og:image" content="https://deviverr.github.io/ASCII-Wallpaper/og.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ASCII Studio — ASCII Paint & Wallpaper Maker">
+  <meta name="twitter:description" content="Create ASCII art and wallpapers in your browser. Free, minimal, and powerful.">
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "ASCII Studio",
+    "description": "Browser-based ASCII art paint editor and wallpaper maker",
+    "url": "https://deviverr.github.io/ASCII-Wallpaper/",
+    "applicationCategory": "DesignApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="home">
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="index.html" class="logo">
+      <span class="logo-symbol">//</span> ASCII Studio
+    </a>
+    <div class="nav-links">
+      <a href="paint.html">Paint</a>
+      <a href="wallpaper.html">Wallpaper</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" aria-label="Hero">
+      <pre class="hero-ascii" aria-hidden="true">
+ ██████╗     ███████╗ ████████╗██╗   ██╗██████╗ ██╗ ██████╗
+██╔══██╗    ██╔════╝ ╚══██╔══╝██║   ██║██╔══██╗██║██╔═══██╗
+███████║    ███████╗    ██║   ██║   ██║██║  ██║██║██║   ██║
+██╔══██║    ╚════██║    ██║   ██║   ██║██║  ██║██║██║   ██║
+██║  ██║    ███████║    ██║   ╚██████╔╝██████╔╝██║╚██████╔╝
+╚═╝  ╚═╝    ╚══════╝    ╚═╝    ╚═════╝ ╚═════╝ ╚═╝ ╚═════╝</pre>
+      <h1 class="hero-title">ASCII Studio</h1>
+      <p class="hero-sub">A minimal, browser-based ASCII art editor and wallpaper generator. No installs. No accounts. Just create.</p>
+      <div class="hero-cta">
+        <a href="paint.html" class="btn primary">Open Paint Editor</a>
+        <a href="wallpaper.html" class="btn">Make Wallpaper</a>
+      </div>
+    </section>
+
+    <section class="features" aria-label="Features">
+      <div class="feature-card">
+        <div class="feature-label">Tool 01</div>
+        <h2 class="feature-title">ASCII Paint</h2>
+        <p class="feature-desc">A full-featured character-based canvas editor with a suite of drawing tools.</p>
+        <ul class="feature-list">
+          <li>Pencil, eraser, flood fill, and text tools</li>
+          <li>Line and rectangle drawing</li>
+          <li>Rectangular selection &amp; clipboard</li>
+          <li>Undo / redo (50 states)</li>
+          <li>Zoom (50% – 400%)</li>
+          <li>Export as PNG or plain TXT</li>
+          <li>Import .txt files</li>
+          <li>Box-drawing &amp; block-element palettes</li>
+        </ul>
+        <pre class="feature-preview" aria-hidden="true">
+┌─────────────────────┐
+│ ░░░░░░░░░░░░░░░░░░░ │
+│ ░  ╔══════════╗  ░ │
+│ ░  ║  ASCII   ║  ░ │
+│ ░  ║  PAINT   ║  ░ │
+│ ░  ╚══════════╝  ░ │
+│ ░░░░░░░░░░░░░░░░░░░ │
+└─────────────────────┘</pre>
+        <div class="feature-actions">
+          <a href="paint.html" class="btn">Open Paint →</a>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-label">Tool 02</div>
+        <h2 class="feature-title">Wallpaper Maker</h2>
+        <p class="feature-desc">Generate high-resolution wallpapers filled with ASCII patterns, then export as PNG.</p>
+        <ul class="feature-list">
+          <li>Preset resolutions up to 5K + custom</li>
+          <li>9 generative patterns (noise, matrix, wave…)</li>
+          <li>6 character set presets + custom charset</li>
+          <li>Adjustable density and font size</li>
+          <li>Text overlay support</li>
+          <li>Export PNG at native resolution</li>
+          <li>Export plain TXT art</li>
+        </ul>
+        <pre class="feature-preview" aria-hidden="true">
+▓░▒░▓░▒▓░▒░▓░▒▓░▒░▓░
+░▒▓░▒░▓░▒▓░▒░▓░▒▓░▒░
+▓░▒░▓░▒▓░▒░▓░▒▓░▒░▓░
+░▒▓░▒░▓░▒▓░▒░▓░▒▓░▒░
+▓░▒░▓░▒▓░▒░▓░▒▓░▒░▓░
+░▒▓░▒░▓░▒▓░▒░▓░▒▓░▒░
+▓░▒░▓░▒▓░▒░▓░▒▓░▒░▓░</pre>
+        <div class="feature-actions">
+          <a href="wallpaper.html" class="btn">Make Wallpaper →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <span>ASCII Studio &mdash; made for the terminal aesthetic</span>
+    <span>
+      <a href="https://github.com/deviverr/ASCII-Wallpaper" rel="noopener">GitHub</a>
+    </span>
+  </footer>
+
+</body>
+</html>

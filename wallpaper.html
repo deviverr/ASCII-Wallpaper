@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASCII Wallpaper Maker — ASCII Studio</title>
+  <meta name="description" content="Generate ASCII art wallpapers at any resolution. Choose from 9 generative patterns, custom character sets, and export as high-resolution PNG.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://deviverr.github.io/ASCII-Wallpaper/wallpaper.html">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="wp-page">
+
+  <header class="topbar" role="banner">
+    <a href="index.html" class="topbar-logo">ASCII Studio</a>
+    <div class="topbar-sep"></div>
+    <button class="btn primary" id="btn-generate" style="font-size:11px;padding:5px 14px">Generate</button>
+    <div class="topbar-sep"></div>
+    <button class="btn ghost" id="btn-export-png" style="font-size:11px">↓ Export PNG</button>
+    <button class="btn ghost" id="btn-export-txt" style="font-size:11px">↓ Export TXT</button>
+    <div style="flex:1"></div>
+    <a href="paint.html" class="btn ghost" style="font-size:11px">Open Paint →</a>
+  </header>
+
+  <div class="wp-layout">
+
+    <!-- Controls sidebar -->
+    <aside class="wp-controls" role="complementary" aria-label="Wallpaper controls">
+
+      <!-- Resolution -->
+      <div class="wp-section">
+        <div class="wp-section-title">Resolution</div>
+        <div class="res-grid" id="res-grid">
+          <button class="res-btn" data-w="1280" data-h="720">HD<br>1280×720</button>
+          <button class="res-btn active" data-w="1920" data-h="1080">FHD<br>1920×1080</button>
+          <button class="res-btn" data-w="2560" data-h="1440">QHD<br>2560×1440</button>
+          <button class="res-btn" data-w="3840" data-h="2160">4K<br>3840×2160</button>
+          <button class="res-btn" data-w="5120" data-h="2880">5K<br>5120×2880</button>
+          <button class="res-btn" data-w="1080" data-h="1920">Mobile<br>1080×1920</button>
+          <button class="res-btn" data-w="2048" data-h="2048">Square<br>2048×2048</button>
+          <button class="res-btn" id="res-custom-btn">Custom</button>
+        </div>
+        <div id="custom-res" style="display:none;margin-top:8px">
+          <div class="control-row">
+            <label>Width</label>
+            <input type="number" id="custom-w" value="1920" min="100" max="7680">
+          </div>
+          <div class="control-row">
+            <label>Height</label>
+            <input type="number" id="custom-h" value="1080" min="100" max="4320">
+          </div>
+          <button class="btn w-full mt-8" id="btn-apply-custom" style="font-size:10px">Apply</button>
+        </div>
+      </div>
+
+      <!-- Pattern -->
+      <div class="wp-section">
+        <div class="wp-section-title">Pattern</div>
+        <div class="pattern-grid" id="pattern-grid">
+          <button class="pattern-btn active" data-pattern="noise">
+            <span class="p-preview">▒░▓</span>Noise
+          </button>
+          <button class="pattern-btn" data-pattern="gradient">
+            <span class="p-preview">░▒▓█</span>Gradient
+          </button>
+          <button class="pattern-btn" data-pattern="matrix">
+            <span class="p-preview">│║│</span>Matrix
+          </button>
+          <button class="pattern-btn" data-pattern="scanlines">
+            <span class="p-preview">───</span>Scanlines
+          </button>
+          <button class="pattern-btn" data-pattern="grid">
+            <span class="p-preview">┼┼┼</span>Grid
+          </button>
+          <button class="pattern-btn" data-pattern="border">
+            <span class="p-preview">╔╗╚╝</span>Border
+          </button>
+          <button class="pattern-btn" data-pattern="wave">
+            <span class="p-preview">~∿~</span>Wave
+          </button>
+          <button class="pattern-btn" data-pattern="diagonal">
+            <span class="p-preview">╲╱╲</span>Diagonal
+          </button>
+          <button class="pattern-btn" data-pattern="spiral">
+            <span class="p-preview">@○◉</span>Spiral
+          </button>
+        </div>
+      </div>
+
+      <!-- Character set -->
+      <div class="wp-section">
+        <div class="wp-section-title">Character Set</div>
+        <div class="charset-pills" id="charset-pills">
+          <button class="charset-pill active" data-cs="ascii">
+            ASCII <span class="cs-sample">. : # @ %</span>
+          </button>
+          <button class="charset-pill" data-cs="blocks">
+            Blocks <span class="cs-sample">░▒▓█</span>
+          </button>
+          <button class="charset-pill" data-cs="box">
+            Box Drawing <span class="cs-sample">─│┌┘</span>
+          </button>
+          <button class="charset-pill" data-cs="dense">
+            Dense <span class="cs-sample">@#%&$</span>
+          </button>
+          <button class="charset-pill" data-cs="minimal">
+            Minimal <span class="cs-sample">· · .</span>
+          </button>
+          <button class="charset-pill" data-cs="custom">
+            Custom…
+          </button>
+        </div>
+        <input type="text" id="custom-charset" placeholder="Type custom chars…"
+          style="display:none;margin-top:8px" value=".:-=+*#@">
+      </div>
+
+      <!-- Settings -->
+      <div class="wp-section">
+        <div class="wp-section-title">Settings</div>
+        <div class="control-row">
+          <label>Font px</label>
+          <select id="font-size-select">
+            <option value="8">8px</option>
+            <option value="10">10px</option>
+            <option value="12">12px</option>
+            <option value="14" selected>14px</option>
+            <option value="16">16px</option>
+            <option value="20">20px</option>
+            <option value="24">24px</option>
+          </select>
+        </div>
+        <div class="control-row">
+          <label>Density</label>
+          <input type="range" id="density-range" min="5" max="100" value="80">
+        </div>
+        <div class="control-row">
+          <label>BG Color</label>
+          <select id="bg-color-select">
+            <option value="#000000">Black</option>
+            <option value="#0a0a0a">Near black</option>
+            <option value="#111111">Dark</option>
+            <option value="#ffffff">White</option>
+            <option value="#f5f5f5">Off-white</option>
+          </select>
+        </div>
+        <div class="control-row">
+          <label>FG Color</label>
+          <select id="fg-color-select">
+            <option value="#ffffff">White</option>
+            <option value="#dddddd">Light gray</option>
+            <option value="#aaaaaa">Gray</option>
+            <option value="#888888">Mid gray</option>
+            <option value="#000000">Black</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Text Overlays -->
+      <div class="wp-section">
+        <div class="wp-section-title">Text Overlay</div>
+        <div class="overlay-list" id="overlay-list"></div>
+        <div style="display:flex;gap:6px;margin-bottom:6px">
+          <input type="text" id="overlay-text" placeholder="overlay text…" style="flex:1">
+        </div>
+        <div class="control-row" style="margin-bottom:6px">
+          <label>Size</label>
+          <select id="overlay-size">
+            <option value="1">1× (small)</option>
+            <option value="2" selected>2× (medium)</option>
+            <option value="3">3× (large)</option>
+            <option value="4">4× (huge)</option>
+          </select>
+        </div>
+        <div class="control-row" style="margin-bottom:8px">
+          <label>Align</label>
+          <select id="overlay-align">
+            <option value="center" selected>Center</option>
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+          </select>
+        </div>
+        <button class="btn w-full" id="btn-add-overlay" style="font-size:10px">+ Add Overlay</button>
+      </div>
+
+      <!-- Generate -->
+      <div class="wp-section">
+        <button class="btn primary w-full wp-generate" id="btn-generate2">Generate ↻</button>
+        <div id="wp-info" style="font-size:9px;color:var(--text3);margin-top:8px;line-height:1.7;"></div>
+      </div>
+
+    </aside>
+
+    <!-- Preview -->
+    <main class="wp-preview-wrap" role="main" aria-label="Wallpaper preview">
+      <canvas id="wp-canvas" aria-label="Wallpaper preview canvas"></canvas>
+    </main>
+
+  </div>
+
+  <script src="js/wallpaper.js"></script>
+</body>
+</html>
